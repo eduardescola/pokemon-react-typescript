@@ -40,6 +40,7 @@ const App: React.FC = () => {
         setLoading(false);
       })
       .catch((err) => {
+        console.error(err);
         setError(err.message);
         setLoading(false);
       });
