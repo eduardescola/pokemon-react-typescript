@@ -29,6 +29,7 @@ const App: React.FC = () => {
     fetch(`https://pokeapi.co/api/v2/pokemon?limit=20&offset=${page * 20}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log('Pokémon List:', data);
         const promises = data.results.map((pokemon: { name: string; url: string }) => 
           fetch(pokemon.url).then((res) => res.json())
         );
