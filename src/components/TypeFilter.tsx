@@ -37,7 +37,7 @@ const TypeFilter: React.FC<TypeFilterProps> = ({ types, filteredType, onTypeFilt
       {types.map((type) => (
         <button
           key={type.name}
-          className="type-button"
+          className="nes-btn"
           style={{ backgroundColor: typeColors[type.name] || "gray" }}
           onClick={() => onTypeFilter(type.name)}
         >
