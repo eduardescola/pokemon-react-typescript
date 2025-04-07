@@ -4,13 +4,10 @@ import './PokemonCard.css';
 type Pokemon = {
   id: number;
   name: string;
-  types: { type: { name: string } }[];
+  types: ({ type: { name: string } } | string)[];
 };
 
-const typeStyles: Record<
-  string,
-  { color: string; icon: string }
-> = {
+const typeStyles: Record<string, { color: string; icon: string }> = {
   normal: { color: '#A8A878', icon: 'fas fa-paw' },
   fire: { color: '#F08030', icon: 'fas fa-fire' },
   water: { color: '#6890F0', icon: 'fas fa-tint' },
@@ -29,6 +26,7 @@ const typeStyles: Record<
   dark: { color: '#705848', icon: 'fas fa-moon' },
   steel: { color: '#B8B8D0', icon: 'fas fa-cogs' },
   fairy: { color: '#EE99AC', icon: 'fas fa-star' },
+  stellar: { color: '#b0c4de', icon: 'fas fa-star-of-life' }, // Nuevo tipo
 };
 
 const PokemonCard: React.FC<Pokemon> = ({ id, name, types }) => {
@@ -42,7 +40,12 @@ const PokemonCard: React.FC<Pokemon> = ({ id, name, types }) => {
       <h3>{name.toUpperCase()}</h3>
       <div className="types">
         {types.map((t, idx) => {
-          const typeName = t.type.name;
+          const typeName = typeof t === 'string' ? t : t?.type?.name;
+
+          console.log('Rendering type for:', name, '→', typeName);
+
+          if (!typeName) return null;
+
           const style = typeStyles[typeName];
 
           return (
@@ -52,7 +55,10 @@ const PokemonCard: React.FC<Pokemon> = ({ id, name, types }) => {
               style={{ backgroundColor: style?.color || '#ccc' }}
               title={typeName}
             >
-              <i className={style?.icon || 'fas fa-question'} style={{ marginRight: '0.3rem' }}></i>
+              <i
+                className={style?.icon || 'fas fa-question'}
+                style={{ marginRight: '0.3rem' }}
+              ></i>
               {typeName.toUpperCase()}
             </span>
           );
