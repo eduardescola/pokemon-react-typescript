@@ -1,0 +1,68 @@
+/* src/components/PokemonDetail.css */
+.pokemon-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-width: 400px;  /* Reducido el tamaño máximo del contenedor */
+    margin: 0 auto;
+    padding: 15px;  /* Reducido el padding */
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .pokemon-detail img {
+    width: 150px;  /* Imagen más pequeña */
+    height: 150px;  /* Imagen más pequeña */
+    margin-bottom: 15px;
+    border-radius: 50%;
+    border: 3px solid #f0f0f0;
+  }
+  
+  .pokemon-detail h2 {
+    font-size: 2rem;  /* Reducido el tamaño de la fuente */
+    margin-bottom: 8px;
+    font-family: 'Press Start 2P', cursive;
+    color: #444;
+  }
+  
+  .pokemon-detail .types {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .pokemon-detail .type {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;  /* Reducido el tamaño del padding */
+    margin: 4px;
+    border-radius: 20px;
+    font-size: 1rem;  /* Reducido el tamaño de la fuente */
+    color: #fff;
+    font-family: 'Press Start 2P', cursive;
+    transition: transform 0.3s ease;
+  }
+  
+  .pokemon-detail .type:hover {
+    transform: scale(1.1);
+  }
+  
+  .pokemon-detail .stats {
+    font-size: 1.2rem;  /* Reducido el tamaño de la fuente */
+    font-family: 'Press Start 2P', cursive;
+    margin-top: 15px;
+    color: #444;
+  }
+  
+  .pokemon-detail .stats p {
+    margin: 6px 0;  /* Reducido el margen */
+  }
+  
+  .pokemon-detail .stats p strong {
+    color: #333;
+  }
+  

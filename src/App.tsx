@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; // Importar Link
 import PokemonCard from './components/PokemonCard';
 import TypeFilter from './components/TypeFilter';
 import Pagination from './components/Pagination';
 import SearchBar from './components/SearchBar';
 import './App.css';
+import PokemonDetail from './components/PokemonDetail';
 
 const ITEMS_PER_PAGE = 20;
 
@@ -84,7 +86,6 @@ const App: React.FC = () => {
     setPage(0);
   };
 
-  // Extraer tipos únicos de todos los Pokémon
   const allTypes: { name: string }[] = Array.from(
     new Set(
       pokemonList.flatMap((p) =>
@@ -101,17 +102,31 @@ const App: React.FC = () => {
   if (error) return <div className="error">{error}</div>;
 
   return (
-    <div className="container">
-      <h1 className="title">Pokémon List</h1>
-      <SearchBar search={search} onSearchChange={setSearch} allPokemonNames={pokemonList.map((p) => p.name)}/>
-      <TypeFilter types={allTypes} filteredType={filteredType} onTypeFilter={handleTypeFilter} />
-      <div className="pokemon-grid">
-        {paginatedPokemon.map((pokemon) => (
-          <PokemonCard key={pokemon.id} {...pokemon} />
-        ))}
-      </div>
-      <Pagination page={page} pageCount={pageCount} onPageChange={handlePageChange} />
-    </div>
+    <Router>
+      <Routes>
+        {/* Ruta para el detalle del Pokémon */}
+        <Route path="/pokemon/:id" element={<PokemonDetail />} />
+        {/* Ruta principal donde se muestra la lista de Pokémon */}
+        <Route
+          path="/"
+          element={
+            <div className="container">
+              <h1 className="title">Pokémon List</h1>
+              <SearchBar search={search} onSearchChange={setSearch} allPokemonNames={pokemonList.map((p) => p.name)} />
+              <TypeFilter types={allTypes} filteredType={filteredType} onTypeFilter={handleTypeFilter} />
+              <div className="pokemon-grid">
+                {paginatedPokemon.map((pokemon) => (
+                  <Link key={pokemon.id} to={`/pokemon/${pokemon.id}`}>
+                    <PokemonCard {...pokemon} />
+                  </Link>
+                ))}
+              </div>
+              <Pagination page={page} pageCount={pageCount} onPageChange={handlePageChange} />
+            </div>
+          }
+        />
+      </Routes>
+    </Router>
   );
 };
 

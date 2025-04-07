@@ -1,12 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // Importa Link para la redirección
+// src/components/PokemonDetail.tsx
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import './PokemonDetail.css';
 
-import './PokemonCard.css';
-
-type Pokemon = {
+type PokemonDetailProps = {
   id: number;
   name: string;
-  types: ({ type: { name: string } } | string)[]; 
+  types: ({ type: { name: string } } | string)[];
+  sprite: string;
+  height: number;
+  weight: number;
+  abilities: { ability: { name: string } }[];
 };
 
 const typeStyles: Record<string, { color: string; icon: string }> = {
@@ -28,27 +32,40 @@ const typeStyles: Record<string, { color: string; icon: string }> = {
   dark: { color: '#705848', icon: 'fas fa-moon' },
   steel: { color: '#B8B8D0', icon: 'fas fa-cogs' },
   fairy: { color: '#EE99AC', icon: 'fas fa-star' },
-  stellar: { color: '#b0c4de', icon: 'fas fa-star-of-life' }, // Nuevo tipo
+  stellar: { color: '#b0c4de', icon: 'fas fa-star-of-life' },
 };
 
-const PokemonCard: React.FC<Pokemon> = ({ id, name, types }) => {
+const PokemonDetail: React.FC = () => {
+  const { id } = useParams();
+  const [pokemonDetail, setPokemonDetail] = useState<PokemonDetailProps | null>(null);
+
+  useEffect(() => {
+    const fetchPokemonDetail = async () => {
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+      const data = await response.json();
+      setPokemonDetail({
+        id: data.id,
+        name: data.name,
+        types: data.types,
+        sprite: data.sprites.front_default,
+        height: data.height,
+        weight: data.weight,
+        abilities: data.abilities,
+      });
+    };
+
+    fetchPokemonDetail();
+  }, [id]);
+
+  if (!pokemonDetail) return <div>Loading...</div>;
+
   return (
-    // Envolvemos toda la tarjeta con el Link
-    <Link to={`/pokemon/${id}`} className="pokemon-card nes-container is-rounded">
-      <img
-        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
-        alt={name}
-        className="sprite"
-      />
-      <h3>{name.toUpperCase()}</h3>
+    <div className="pokemon-detail">
+      <img src={pokemonDetail.sprite} alt={pokemonDetail.name} />
+      <h2>{pokemonDetail.name.toUpperCase()}</h2>
       <div className="types">
-        {types.map((t, idx) => {
+        {pokemonDetail.types.map((t, idx) => {
           const typeName = typeof t === 'string' ? t : t?.type?.name;
-
-          console.log('Rendering type for:', name, '→', typeName);
-
-          if (!typeName) return null;
-
           const style = typeStyles[typeName];
 
           return (
@@ -67,8 +84,13 @@ const PokemonCard: React.FC<Pokemon> = ({ id, name, types }) => {
           );
         })}
       </div>
-    </Link>
+      <div className="stats">
+        <p>Height: {pokemonDetail.height} decimetres</p>
+        <p>Weight: {pokemonDetail.weight} hectograms</p>
+        <p>Abilities: {pokemonDetail.abilities.map((a) => a.ability.name).join(', ')}</p>
+      </div>
+    </div>
   );
 };
 
-export default PokemonCard;
+export default PokemonDetail;
