@@ -4,6 +4,7 @@ import PokemonCard from "./components/PokemonCard";
 import TypeFilter from "./components/TypeFilter";
 import Pagination from "./components/Pagination";
 import SearchBar from "./components/SearchBar";
+import './App.css';
 
 type Pokemon = {
   name: string;
