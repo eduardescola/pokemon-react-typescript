@@ -1,11 +1,11 @@
+// App.tsx
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; // Importar Link
+import { Link, useNavigate } from 'react-router-dom'; 
 import PokemonCard from './components/PokemonCard';
 import TypeFilter from './components/TypeFilter';
 import Pagination from './components/Pagination';
 import SearchBar from './components/SearchBar';
 import './App.css';
-import PokemonDetail from './components/PokemonDetail';
 
 const ITEMS_PER_PAGE = 20;
 
@@ -17,6 +17,8 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     getPokemonsFromStorage()
       .then((pokemons) => {
@@ -24,7 +26,7 @@ const App: React.FC = () => {
         setLoading(false);
       })
       .catch(() => {
-        setError('Failed to load Pokémon');
+        setError('No se pudieron cargar los Pokémon');
         setLoading(false);
       });
   }, []);
@@ -98,35 +100,35 @@ const App: React.FC = () => {
     .filter(Boolean)
     .map((name) => ({ name }));
 
-  if (loading) return <div className="loading">Loading...</div>;
+  const getRandomPokemon = () => {
+    const randomIndex = Math.floor(Math.random() * filteredPokemon.length);
+    const randomPokemon = filteredPokemon[randomIndex];
+    if (randomPokemon) {
+      navigate(`/pokemon/${randomPokemon.id}`);
+    }
+  };
+
+  if (loading) return <div className="loading">Cargando...</div>;
   if (error) return <div className="error">{error}</div>;
 
   return (
-    <Router>
-      <Routes>
-        {/* Ruta para el detalle del Pokémon */}
-        <Route path="/pokemon/:id" element={<PokemonDetail />} />
-        {/* Ruta principal donde se muestra la lista de Pokémon */}
-        <Route
-          path="/"
-          element={
-            <div className="container">
-              <h1 className="title">Pokémon List</h1>
-              <SearchBar search={search} onSearchChange={setSearch} allPokemonNames={pokemonList.map((p) => p.name)} />
-              <TypeFilter types={allTypes} filteredType={filteredType} onTypeFilter={handleTypeFilter} />
-              <div className="pokemon-grid">
-                {paginatedPokemon.map((pokemon) => (
-                  <Link key={pokemon.id} to={`/pokemon/${pokemon.id}`}>
-                    <PokemonCard {...pokemon} />
-                  </Link>
-                ))}
-              </div>
-              <Pagination page={page} pageCount={pageCount} onPageChange={handlePageChange} />
-            </div>
-          }
-        />
-      </Routes>
-    </Router>
+    <div className="container">
+      <h1 className="title">Lista de Pokémon</h1>
+      <SearchBar search={search} onSearchChange={setSearch} allPokemonNames={pokemonList.map((p) => p.name)} />
+      <TypeFilter types={allTypes} filteredType={filteredType} onTypeFilter={handleTypeFilter} />
+      <div className="pokemon-grid">
+        {paginatedPokemon.map((pokemon) => (
+          // Asegúrate de que `Link` rodea solo el contenido de la card (sin envolver el <a> dentro del Link)
+          <Link key={pokemon.id} to={`/pokemon/${pokemon.id}`}>
+            <PokemonCard {...pokemon} />
+          </Link>
+        ))}
+      </div>
+      <Pagination page={page} pageCount={pageCount} onPageChange={handlePageChange} />
+      <button className="nes-btn is-primary" onClick={getRandomPokemon}>
+        Random Pokémon
+      </button>
+    </div>
   );
 };
 

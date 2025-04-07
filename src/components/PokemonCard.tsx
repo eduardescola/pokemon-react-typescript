@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Importa Link para la redirección
+import { Link } from 'react-router-dom'; // Importa Link para la navegación
 
 import './PokemonCard.css';
 
@@ -33,41 +33,41 @@ const typeStyles: Record<string, { color: string; icon: string }> = {
 
 const PokemonCard: React.FC<Pokemon> = ({ id, name, types }) => {
   return (
-    // Envolvemos toda la tarjeta con el Link
-    <Link to={`/pokemon/${id}`} className="pokemon-card nes-container is-rounded">
-      <img
-        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
-        alt={name}
-        className="sprite"
-      />
-      <h3>{name.toUpperCase()}</h3>
-      <div className="types">
-        {types.map((t, idx) => {
-          const typeName = typeof t === 'string' ? t : t?.type?.name;
+    // Envolvemos toda la tarjeta con Link para la navegación
+    <div className="pokemon-card nes-container is-rounded">
+      <Link to={`/pokemon/${id}`}>
+        <img
+          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
+          alt={name}
+          className="sprite"
+        />
+        <h3>{name.toUpperCase()}</h3>
+        <div className="types">
+          {types.map((t, idx) => {
+            const typeName = typeof t === 'string' ? t : t?.type?.name;
 
-          console.log('Rendering type for:', name, '→', typeName);
+            if (!typeName) return null;
 
-          if (!typeName) return null;
+            const style = typeStyles[typeName];
 
-          const style = typeStyles[typeName];
-
-          return (
-            <span
-              key={idx}
-              className="type"
-              style={{ backgroundColor: style?.color || '#ccc' }}
-              title={typeName}
-            >
-              <i
-                className={style?.icon || 'fas fa-question'}
-                style={{ marginRight: '0.3rem' }}
-              ></i>
-              {typeName.toUpperCase()}
-            </span>
-          );
-        })}
-      </div>
-    </Link>
+            return (
+              <span
+                key={idx}
+                className="type"
+                style={{ backgroundColor: style?.color || '#ccc' }}
+                title={typeName}
+              >
+                <i
+                  className={style?.icon || 'fas fa-question'}
+                  style={{ marginRight: '0.3rem' }}
+                ></i>
+                {typeName.toUpperCase()}
+              </span>
+            );
+          })}
+        </div>
+      </Link>
+    </div>
   );
 };
 
