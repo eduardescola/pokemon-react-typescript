@@ -84,11 +84,6 @@ const App: React.FC = () => {
     setPage(0);
   };
 
-  const handleSearchChange = (search: string) => {
-    setSearch(search);
-    setPage(0);
-  };
-
   // Extraer tipos únicos de todos los Pokémon
   const allTypes: { name: string }[] = Array.from(
     new Set(
