@@ -108,7 +108,7 @@ const App: React.FC = () => {
   return (
     <div className="container">
       <h1 className="title">Pokémon List</h1>
-      <SearchBar search={search} onSearchChange={handleSearchChange} />
+      <SearchBar search={search} onSearchChange={setSearch} allPokemonNames={pokemonList.map((p) => p.name)}/>
       <TypeFilter types={allTypes} filteredType={filteredType} onTypeFilter={handleTypeFilter} />
       <div className="pokemon-grid">
         {paginatedPokemon.map((pokemon) => (
