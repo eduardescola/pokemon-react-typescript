@@ -5,11 +5,11 @@ import './PokemonDetail.css';
 type PokemonDetailProps = {
   id: number;
   name: string;
-  types: string[];  // Se espera que `types` sea un arreglo de strings
+  types: string[] | { type: { name: string } }[];  // Los tipos ahora pueden ser objetos
   sprite: string;
   height: number;
   weight: number;
-  abilities: { ability: { name: string } }[];  // Abilities es un arreglo de objetos con { ability: { name: string } }
+  abilities: string[];  // Ahora abilities es un array de strings directamente
 };
 
 const typeStyles: Record<string, { color: string; icon: string }> = {
@@ -65,32 +65,40 @@ const PokemonDetail: React.FC = () => {
       <img src={pokemonDetail?.sprite} alt={pokemonDetail?.name} />
       <h2>{pokemonDetail?.name.toUpperCase()}</h2>
       <div className="types">
-        {pokemonDetail?.types.map((typeName, idx) => {
-          const style = typeStyles[typeName];
+        {pokemonDetail?.types && pokemonDetail.types.length > 0 ? (
+          pokemonDetail?.types.map((type, idx) => {
+            // Verificamos si el objeto type tiene 'type' y 'type.name'
+            const typeName = typeof type === 'string' ? type : type?.type?.name;
+            if (!typeName) return null; // Si typeName es undefined o null, no renderizamos nada.
+            const style = typeStyles[typeName];
 
-          return (
-            <span
-              key={idx}
-              className="type"
-              style={{ backgroundColor: style?.color || '#ccc' }}
-              title={typeName}
-            >
-              <i
-                className={style?.icon || 'fas fa-question'}
-                style={{ marginRight: '0.3rem' }}
-              ></i>
-              {typeName.toUpperCase()}
-            </span>
-          );
-        })}
+            return (
+              <span key={idx} className="type" style={{ backgroundColor: style?.color || '#ccc' }} title={typeName}>
+                <i className={style?.icon || 'fas fa-question'} style={{ marginRight: '0.3rem' }}></i>
+                {typeName?.toUpperCase()}
+              </span>
+            );
+          })
+        ) : (
+          <span>No types available</span>
+        )}
       </div>
       <div className="stats">
         <p>Height: {pokemonDetail?.height} decimetres</p>
         <p>Weight: {pokemonDetail?.weight} hectograms</p>
         <p>
-          Abilities: {pokemonDetail?.abilities?.length ? 
-            pokemonDetail.abilities.map((a) => a.ability.name).join(', ') : 
-            'No abilities available'}
+          Abilities: 
+          {pokemonDetail?.abilities && pokemonDetail.abilities.length > 0 ? (
+            pokemonDetail.abilities.map((ability, idx) => {
+              return (
+                <span key={idx}>
+                  {ability}{idx < pokemonDetail.abilities.length - 1 ? ', ' : ''}
+                </span>
+              );
+            })
+          ) : (
+            'No abilities available'
+          )}
         </p>
       </div>
     </div>

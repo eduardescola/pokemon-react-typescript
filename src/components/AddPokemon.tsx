@@ -7,9 +7,9 @@ const AddPokemon: React.FC = () => {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [sprite, setSprite] = useState("");
-  const [abilities, setAbilities] = useState("");  // Nuevo estado para habilidades
-  const [height, setHeight] = useState("");  // Nuevo estado para altura
-  const [weight, setWeight] = useState("");  // Nuevo estado para peso
+  const [abilities, setAbilities] = useState("");  // Habilidades como string[]
+  const [height, setHeight] = useState("");  // Altura en decímetros
+  const [weight, setWeight] = useState("");  // Peso en hectogramos
   const [error, setError] = useState("");
 
   const handleSubmit = () => {
@@ -23,7 +23,7 @@ const AddPokemon: React.FC = () => {
 
     // Si no se proporciona habilidades, asignamos un valor predeterminado
     const abilitiesArray = abilities
-      ? abilities.split(',').map((ability: string) => ({ ability: { name: ability.trim() } }))
+      ? abilities.split(',').map((ability: string) => ability.trim())  // Habilidades como strings
       : [];
 
     // Crear un nuevo Pokémon con los valores proporcionados
@@ -34,7 +34,7 @@ const AddPokemon: React.FC = () => {
         name,
         types: [type],  // Asegúrate de que `types` sea un arreglo de strings
         sprite: sprite || `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${newId}.png`,
-        abilities: abilitiesArray, // Asignar las habilidades
+        abilities: abilitiesArray, // Habilidades como array de strings
         height: parseInt(height, 10), // Convertir altura a número
         weight: parseInt(weight, 10), // Convertir peso a número
       },
