@@ -13,6 +13,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Cambia el cursor a una pokeball */
+* {
+  cursor: url('/public/pokeball.svg'), auto !important;
+}
+
 a {
   font-weight: 500;
   color: #646cff;

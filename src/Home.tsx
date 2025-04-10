@@ -4,6 +4,7 @@ import PokemonCard from "./components/PokemonCard";
 import TypeFilter from "./components/TypeFilter";
 import Pagination from "./components/Pagination";
 import SearchBar from "./components/SearchBar";
+import Carga from "./components/Carga";  // Importamos el componente de carga
 import "./Home.css";
 
 const ITEMS_PER_PAGE = 20;
@@ -23,7 +24,7 @@ const Home: React.FC = () => {
   }, []);
 
   const loadPokemons = async () => {
-    setLoading(true);
+    setLoading(true); // Establecemos loading en true para mostrar la animación
     try {
       const pokemons = await getPokemonsFromStorage();
       setPokemonList(pokemons);
@@ -124,7 +125,7 @@ const Home: React.FC = () => {
     setLoading(false);
   };
 
-  if (loading) return <div className="loading">Cargando...</div>;
+  if (loading) return <Carga />;  // Mostrar el componente de carga mientras se cargan los Pokémon
   if (error) return <div className="error">{error}</div>;
 
   return (
