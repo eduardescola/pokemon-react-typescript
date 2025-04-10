@@ -1,39 +1,42 @@
-import React, { useState, useEffect } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const EditPokemon: React.FC = () => {
-  const navigate = useNavigate()
-  const { id } = useParams()
-  const isNew = id === "new"
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const isNew = id === "new";
 
-  const [name, setName] = useState("")
-  const [type, setType] = useState("")
-  const [sprite, setSprite] = useState("")
-  const [error, setError] = useState("")
+  const [name, setName] = useState("");
+  const [type, setType] = useState("");
+  const [sprite, setSprite] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!isNew) {
-      const pokemons = JSON.parse(localStorage.getItem("pokemons") || "[]")
-      const pokemon = pokemons.find((p: any) => p.id === Number(id))
+      const pokemons = JSON.parse(localStorage.getItem("pokemons") || "[]");
+      const pokemon = pokemons.find((p: any) => p.id === Number(id));
+
       if (pokemon) {
-        setName(pokemon.name)
-        setType(pokemon.types?.[0]?.type?.name || "")
-        setSprite(pokemon.sprite)
+        setName(pokemon.name);
+        setType(pokemon.types?.[0]?.type?.name || "");
+        setSprite(pokemon.sprite);
+      } else {
+        setError("Pokémon no encontrado en el almacenamiento local.");
       }
     }
-  }, [id, isNew])
+  }, [id, isNew]);
 
   const handleSubmit = () => {
     if (!name || !type) {
-      setError("Nombre y tipo son requeridos")
-      return
+      setError("Nombre y tipo son requeridos");
+      return;
     }
 
-    const pokemons = JSON.parse(localStorage.getItem("pokemons") || "[]")
-    let updatedList
+    const pokemons = JSON.parse(localStorage.getItem("pokemons") || "[]");
+    let updatedList;
 
     if (isNew) {
-      const newId = Math.max(...pokemons.map((p: any) => p.id)) + 1
+      const newId = Math.max(...pokemons.map((p: any) => p.id), 0) + 1;
       updatedList = [
         ...pokemons,
         {
@@ -42,27 +45,23 @@ const EditPokemon: React.FC = () => {
           types: [{ type: { name: type } }],
           sprite: sprite || `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${newId}.png`,
         },
-      ]
+      ];
+      localStorage.setItem("pokemons", JSON.stringify(updatedList));
+      navigate(`/pokemon/${newId}`);
     } else {
       updatedList = pokemons.map((p: any) =>
         p.id === Number(id)
-          ? {
-              ...p,
-              name,
-              types: [{ type: { name: type } }],
-              sprite,
-            }
-          : p,
-      )
+          ? { ...p, name, types: [{ type: { name: type } }], sprite }
+          : p
+      );
+      localStorage.setItem("pokemons", JSON.stringify(updatedList));
+      navigate(`/pokemon/${id}`);
     }
-
-    localStorage.setItem("pokemons", JSON.stringify(updatedList))
-    navigate("/")
-  }
+  };
 
   return (
     <div className="edit-container">
-      <h2>{isNew ? "Añadir Pokémon" : "Editar Pokémon"}</h2>
+      <h2>Editar Pokémon</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <label>Nombre:</label>
       <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
@@ -78,7 +77,7 @@ const EditPokemon: React.FC = () => {
         Cancelar
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default EditPokemon
+export default EditPokemon;

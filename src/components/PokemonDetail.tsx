@@ -1,4 +1,3 @@
-// src/components/PokemonDetail.tsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './PokemonDetail.css';
@@ -6,11 +5,11 @@ import './PokemonDetail.css';
 type PokemonDetailProps = {
   id: number;
   name: string;
-  types: ({ type: { name: string } } | string)[];
+  types: string[];  // Se espera que `types` sea un arreglo de strings
   sprite: string;
   height: number;
   weight: number;
-  abilities: { ability: { name: string } }[];
+  abilities: { ability: { name: string } }[];  // Abilities es un arreglo de objetos con { ability: { name: string } }
 };
 
 const typeStyles: Record<string, { color: string; icon: string }> = {
@@ -38,34 +37,35 @@ const typeStyles: Record<string, { color: string; icon: string }> = {
 const PokemonDetail: React.FC = () => {
   const { id } = useParams();
   const [pokemonDetail, setPokemonDetail] = useState<PokemonDetailProps | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchPokemonDetail = async () => {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-      const data = await response.json();
-      setPokemonDetail({
-        id: data.id,
-        name: data.name,
-        types: data.types,
-        sprite: data.sprites.front_default,
-        height: data.height,
-        weight: data.weight,
-        abilities: data.abilities,
-      });
+    const loadPokemonFromStorage = () => {
+      const storedPokemons = JSON.parse(localStorage.getItem('pokemons') || '[]');
+      const pokemon = storedPokemons.find((p: any) => p.id === Number(id));
+
+      if (pokemon) {
+        setPokemonDetail(pokemon);
+      } else {
+        setError('Pokémon no encontrado en el almacenamiento local.');
+      }
+
+      setLoading(false);
     };
 
-    fetchPokemonDetail();
+    loadPokemonFromStorage();
   }, [id]);
 
-  if (!pokemonDetail) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="pokemon-detail">
-      <img src={pokemonDetail.sprite} alt={pokemonDetail.name} />
-      <h2>{pokemonDetail.name.toUpperCase()}</h2>
+      <img src={pokemonDetail?.sprite} alt={pokemonDetail?.name} />
+      <h2>{pokemonDetail?.name.toUpperCase()}</h2>
       <div className="types">
-        {pokemonDetail.types.map((t, idx) => {
-          const typeName = typeof t === 'string' ? t : t?.type?.name;
+        {pokemonDetail?.types.map((typeName, idx) => {
           const style = typeStyles[typeName];
 
           return (
@@ -85,9 +85,13 @@ const PokemonDetail: React.FC = () => {
         })}
       </div>
       <div className="stats">
-        <p>Height: {pokemonDetail.height} decimetres</p>
-        <p>Weight: {pokemonDetail.weight} hectograms</p>
-        <p>Abilities: {pokemonDetail.abilities.map((a) => a.ability.name).join(', ')}</p>
+        <p>Height: {pokemonDetail?.height} decimetres</p>
+        <p>Weight: {pokemonDetail?.weight} hectograms</p>
+        <p>
+          Abilities: {pokemonDetail?.abilities?.length ? 
+            pokemonDetail.abilities.map((a) => a.ability.name).join(', ') : 
+            'No abilities available'}
+        </p>
       </div>
     </div>
   );

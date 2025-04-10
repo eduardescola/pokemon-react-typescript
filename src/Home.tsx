@@ -111,19 +111,18 @@ const Home: React.FC = () => {
     }
   }
 
-  const handleCardClick = (id: number) => {
-    if (id) {
-      navigate(`/pokemon/${id}`)
-    } else {
-      console.error("Invalid Pokemon ID")
-    }
-  }
-
   const allTypes: { name: string }[] = Array.from(
-    new Set(pokemonList.flatMap((p) => p.types?.map((t: any) => (typeof t === "string" ? t : t?.type?.name))))
+    new Set(pokemonList.flatMap((p) => p.types?.map((t: any) => (typeof t === "string" ? t : t?.type?.name)))),
   )
     .filter(Boolean)
     .map((name) => ({ name }))
+
+  // Función que actualiza la lista de Pokémon en el estado y en el localStorage
+  const handlePokemonAddedOrEdited = (updatedList: any[]) => {
+    setPokemonList(updatedList)
+    localStorage.setItem("pokemons", JSON.stringify(updatedList))
+    setLoading(false) // Asegúrate de quitar el loading cuando se actualice la lista
+  }
 
   if (loading) return <div className="loading">Cargando...</div>
   if (error) return <div className="error">{error}</div>
@@ -135,24 +134,20 @@ const Home: React.FC = () => {
       <TypeFilter types={allTypes} filteredType={filteredType} onTypeFilter={handleTypeFilter} />
       <div className="pokemon-grid">
         {paginatedPokemon.map((pokemon) => (
-          <div key={pokemon.id} className="card-wrapper" onClick={() => handleCardClick(pokemon.id)}>
+          <div key={pokemon.id} className="card-wrapper">
             <div className="card-link">
               <PokemonCard
                 {...pokemon}
                 onEdit={(id) => {
-                  const newName = prompt("Nuevo nombre del Pokémon:")
-                  if (newName) {
-                    const updatedList = pokemonList.map((p) => (p.id === id ? { ...p, name: newName } : p))
-                    setPokemonList(updatedList)
-                    localStorage.setItem("pokemons", JSON.stringify(updatedList))
-                  }
+                  // Redirige al formulario de edición directamente
+                  navigate(`/edit/${id}`)
                 }}
                 onDelete={(id) => {
                   const confirmed = confirm("¿Estás seguro de que quieres eliminar este Pokémon?")
                   if (confirmed) {
+                    // Elimina el Pokémon de la lista sin cambiar de página
                     const updatedList = pokemonList.filter((p) => p.id !== id)
-                    setPokemonList(updatedList)
-                    localStorage.setItem("pokemons", JSON.stringify(updatedList))
+                    handlePokemonAddedOrEdited(updatedList)
                   }
                 }}
               />
@@ -164,7 +159,7 @@ const Home: React.FC = () => {
       <button className="nes-btn is-primary" onClick={getRandomPokemon}>
         Random Pokémon
       </button>
-      <button className="nes-btn is-success" onClick={() => navigate("/edit/new")}>
+      <button className="nes-btn is-success" onClick={() => navigate("/add/new")}>
         Añadir Pokémon
       </button>
       <button className="nes-btn is-warning" onClick={handleRestoreOriginals}>
