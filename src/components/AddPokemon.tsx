@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./AddPokemon.css";
 
 const AddPokemon: React.FC = () => {
   const navigate = useNavigate();
@@ -21,80 +22,81 @@ const AddPokemon: React.FC = () => {
     const pokemons = JSON.parse(localStorage.getItem("pokemons") || "[]");
     const newId = Math.max(...pokemons.map((p: any) => p.id), 0) + 1;
 
-    // Si no se proporciona habilidades, asignamos un valor predeterminado
     const abilitiesArray = abilities
-      ? abilities.split(',').map((ability: string) => ability.trim())  // Habilidades como strings
+      ? abilities.split(',').map((ability: string) => ability.trim())
       : [];
 
-    // Crear un nuevo Pokémon con los valores proporcionados
     const updatedList = [
       ...pokemons,
       {
         id: newId,
         name,
-        types: [type],  // Asegúrate de que `types` sea un arreglo de strings
+        types: [type],
         sprite: sprite || `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${newId}.png`,
-        abilities: abilitiesArray, // Habilidades como array de strings
-        height: parseInt(height, 10), // Convertir altura a número
-        weight: parseInt(weight, 10), // Convertir peso a número
+        abilities: abilitiesArray,
+        height: parseInt(height, 10),
+        weight: parseInt(weight, 10),
       },
     ];
 
     localStorage.setItem("pokemons", JSON.stringify(updatedList));
-
-    // Redirigir al detalle del Pokémon recién creado
     navigate(`/pokemon/${newId}`);
   };
 
   return (
-    <div className="edit-container">
+    <div className="edit-container nes-container is-rounded">
       <h2>Añadir Pokémon</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      
+      {error && <p className="error">{error}</p>}
+
       <label>Nombre:</label>
-      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-      
+      <input className="nes-input" type="text" value={name} onChange={(e) => setName(e.target.value)} />
+
       <label>Tipo:</label>
-      <input type="text" value={type} onChange={(e) => setType(e.target.value)} />
-      
+      <input className="nes-input" type="text" value={type} onChange={(e) => setType(e.target.value)} />
+
       <label>Habilidades (separadas por coma, opcional):</label>
       <input
+        className="nes-input"
         type="text"
         value={abilities}
         onChange={(e) => setAbilities(e.target.value)}
         placeholder="Por ejemplo: levitate, overgrow"
       />
-      
+
       <label>Altura (en decímetros, requerido):</label>
       <input
+        className="nes-input"
         type="number"
         value={height}
         onChange={(e) => setHeight(e.target.value)}
         placeholder="Por ejemplo: 10"
       />
-      
+
       <label>Peso (en hectogramos, requerido):</label>
       <input
+        className="nes-input"
         type="number"
         value={weight}
         onChange={(e) => setWeight(e.target.value)}
         placeholder="Por ejemplo: 60"
       />
-      
+
       <label>URL de Sprite (opcional):</label>
       <input
+        className="nes-input"
         type="text"
         value={sprite}
         onChange={(e) => setSprite(e.target.value)}
       />
-      <br />
       
-      <button className="nes-btn is-primary" onClick={handleSubmit}>
-        Guardar
-      </button>
-      <button className="nes-btn" onClick={() => navigate("/")}>
-        Cancelar
-      </button>
+      <div className="buttons-container">
+        <button className="nes-btn is-primary" onClick={handleSubmit}>
+          Guardar
+        </button>
+        <button className="nes-btn" onClick={() => navigate("/")}>
+          Cancelar
+        </button>
+      </div>
     </div>
   );
 };

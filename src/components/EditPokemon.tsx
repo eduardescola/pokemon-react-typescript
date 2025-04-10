@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import "./EditPokemon.css";
 
 const EditPokemon: React.FC = () => {
   const navigate = useNavigate();
@@ -60,22 +61,32 @@ const EditPokemon: React.FC = () => {
   };
 
   return (
-    <div className="edit-container">
+    <div className="edit-container nes-container is-rounded">
       <h2>Editar Pokémon</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="error">{error}</p>}
+
       <label>Nombre:</label>
-      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+      <input className="nes-input" type="text" value={name} onChange={(e) => setName(e.target.value)} />
+
       <label>Tipo:</label>
-      <input type="text" value={type} onChange={(e) => setType(e.target.value)} />
+      <input className="nes-input" type="text" value={type} onChange={(e) => setType(e.target.value)} />
+
       <label>URL de Sprite (opcional):</label>
-      <input type="text" value={sprite} onChange={(e) => setSprite(e.target.value)} />
-      <br />
-      <button className="nes-btn is-primary" onClick={handleSubmit}>
-        Guardar
-      </button>
-      <button className="nes-btn" onClick={() => navigate("/")}>
-        Cancelar
-      </button>
+      <input
+        className="nes-input"
+        type="text"
+        value={sprite}
+        onChange={(e) => setSprite(e.target.value)}
+      />
+
+      <div className="buttons-container">
+        <button className="nes-btn is-primary" onClick={handleSubmit}>
+          Guardar
+        </button>
+        <button className="nes-btn" onClick={() => navigate("/")}>
+          Cancelar
+        </button>
+      </div>
     </div>
   );
 };

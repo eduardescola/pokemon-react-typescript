@@ -1,0 +1,85 @@
+/* Estilo general del formulario */
+.edit-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   /* Asegura que el contenido se alinee verticalmente */
+    align-items: center;       /* Centra el contenido horizontalmente */
+    width: 100%;
+    max-width: 500px;          /* Ancho máximo del contenedor */
+    margin: 0 auto;            /* Centrado horizontal */
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f0f4f8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Press Start 2P', cursive; /* Estilo de fuente retro */
+    min-height: 100vh;         /* Asegura que el contenedor ocupe al menos el 100% de la altura */
+  }
+  
+  /* Centrado del título */
+  .edit-container h2 {
+    text-align: center;
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para los labels */
+  .edit-container label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  /* Estilos para los inputs */
+  .edit-container input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    font-family: 'Press Start 2P', cursive; /* Fuente retro */
+  }
+  
+  .edit-container input:focus {
+    border-color: #78c850;
+    outline: none;
+  }
+  
+  /* Contenedor de los botones */
+  .buttons-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .buttons-container .nes-btn {
+    width: 48%;            /* Ancho del 48% para los botones */
+  }
+  
+  .nes-btn.is-primary {
+    background-color: #78c850;
+    color: white;
+  }
+  
+  .nes-btn {
+    background-color: #d1d1d1;
+    color: black;
+  }
+  
+  .nes-btn:hover {
+    opacity: 0.8;
+  }
+  
+  /* Estilos de error */
+  .error {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  

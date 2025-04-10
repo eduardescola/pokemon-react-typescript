@@ -1,16 +1,16 @@
-import React from "react"
-import "./PokemonCard.css"
+import React from "react";
+import "./PokemonCard.css";
 
 type Pokemon = {
-  id: number
-  name: string
-  types: ({ type: { name: string } } | string)[]
-}
+  id: number;
+  name: string;
+  types: ({ type: { name: string } } | string)[];
+};
 
 type Props = Pokemon & {
-  onEdit?: (id: number) => void
-  onDelete?: (id: number) => void
-}
+  onEdit?: (id: number) => void;
+  onDelete?: (id: number) => void;
+};
 
 const typeStyles: Record<string, { color: string; icon: string }> = {
   normal: { color: "#A8A878", icon: "fas fa-paw" },
@@ -32,16 +32,26 @@ const typeStyles: Record<string, { color: string; icon: string }> = {
   steel: { color: "#B8B8D0", icon: "fas fa-cogs" },
   fairy: { color: "#EE99AC", icon: "fas fa-star" },
   stellar: { color: "#b0c4de", icon: "fas fa-star-of-life" },
-}
+};
 
 const PokemonCard: React.FC<Props> = ({ id, name, types, onEdit, onDelete }) => {
+  const handleEditClick = (event: React.MouseEvent) => {
+    event.stopPropagation(); // Evitar que el clic se propague al contenedor de la tarjeta
+    if (onEdit) onEdit(id);
+  };
+
+  const handleDeleteClick = (event: React.MouseEvent) => {
+    event.stopPropagation(); // Evitar que el clic se propague al contenedor de la tarjeta
+    if (onDelete) onDelete(id);
+  };
+
   return (
     <div className="pokemon-card nes-container is-rounded">
       <div className="pokemon-actions-top">
-        <button className="edit-btn" onClick={() => onEdit?.(id)}>
+        <button className="edit-btn" onClick={handleEditClick}>
           <i className="fas fa-pencil-alt"></i>
         </button>
-        <button className="delete-btn" onClick={() => onDelete?.(id)}>
+        <button className="delete-btn" onClick={handleDeleteClick}>
           <i className="fas fa-trash-alt"></i>
         </button>
       </div>
@@ -53,9 +63,9 @@ const PokemonCard: React.FC<Props> = ({ id, name, types, onEdit, onDelete }) => 
       <h3>{name.toUpperCase()}</h3>
       <div className="types">
         {types.map((t, idx) => {
-          const typeName = typeof t === "string" ? t : t?.type?.name
-          if (!typeName) return null
-          const style = typeStyles[typeName]
+          const typeName = typeof t === "string" ? t : t?.type?.name;
+          if (!typeName) return null;
+          const style = typeStyles[typeName];
           return (
             <span
               key={idx}
@@ -66,11 +76,11 @@ const PokemonCard: React.FC<Props> = ({ id, name, types, onEdit, onDelete }) => 
               <i className={style?.icon || "fas fa-question"} style={{ marginRight: "0.3rem" }}></i>
               {typeName.toUpperCase()}
             </span>
-          )
+          );
         })}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PokemonCard
+export default PokemonCard;
