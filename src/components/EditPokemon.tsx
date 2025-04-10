@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./EditPokemon.css";
+import "./AddPokemon.css";
 
 const EditPokemon: React.FC = () => {
   const navigate = useNavigate();
