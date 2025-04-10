@@ -19,34 +19,19 @@ const Home: React.FC = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    getPokemonsFromStorage()
-      .then((pokemons) => {
-        setPokemonList(pokemons)
-        setLoading(false)
-      })
-      .catch((err) => {
-        console.error("Error loading Pokemon:", err)
-        setError("No se pudieron cargar los Pokémon")
-        setLoading(false)
-      })
+    loadPokemons()
   }, [])
 
-  const filteredPokemon = pokemonList.filter(
-    (pokemon) =>
-      (!filteredType ||
-        pokemon.types?.some((t: any) =>
-          typeof t === "string" ? t === filteredType : t?.type?.name === filteredType,
-        )) &&
-      pokemon.name?.toLowerCase().includes(search.toLowerCase()),
-  )
-
-  const paginatedPokemon = filteredPokemon.slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE)
-
-  const pageCount = Math.ceil(filteredPokemon.length / ITEMS_PER_PAGE)
-
-  const handlePageChange = (newPage: number) => {
-    if (newPage >= 0 && newPage < pageCount) {
-      setPage(newPage)
+  const loadPokemons = async () => {
+    setLoading(true)
+    try {
+      const pokemons = await getPokemonsFromStorage()
+      setPokemonList(pokemons)
+    } catch (err) {
+      console.error("Error loading Pokémon:", err)
+      setError("No se pudieron cargar los Pokémon")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -58,9 +43,7 @@ const Home: React.FC = () => {
         return JSON.parse(storedPokemons)
       } else {
         const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1000")
-        if (!response.ok) {
-          throw new Error(`API error: ${response.status}`)
-        }
+        if (!response.ok) throw new Error(`API error: ${response.status}`)
         const data = await response.json()
         const pokemonData = data.results
 
@@ -68,7 +51,7 @@ const Home: React.FC = () => {
           fetch(pokemon.url).then((res) => {
             if (!res.ok) throw new Error(`Failed to fetch ${pokemon.name}`)
             return res.json()
-          }),
+          })
         )
 
         const pokemonDetails = await Promise.all(pokemonDetailsPromises)
@@ -81,7 +64,6 @@ const Home: React.FC = () => {
         }))
 
         localStorage.setItem("pokemons", JSON.stringify(detailedPokemons))
-
         return detailedPokemons
       }
     } catch (error) {
@@ -90,16 +72,36 @@ const Home: React.FC = () => {
     }
   }
 
+  const handleRestoreOriginals = async () => {
+    const confirmed = confirm("¿Estás seguro de que quieres restaurar la lista original desde la API? Se perderán los cambios.")
+    if (!confirmed) return
+
+    localStorage.removeItem("pokemons")
+    await loadPokemons()
+  }
+
   const handleTypeFilter = (type: string) => {
     setFilteredType(type === filteredType ? null : type)
     setPage(0)
   }
 
-  const allTypes: { name: string }[] = Array.from(
-    new Set(pokemonList.flatMap((p) => p.types?.map((t: any) => (typeof t === "string" ? t : t?.type?.name)))),
+  const filteredPokemon = pokemonList.filter(
+    (pokemon) =>
+      (!filteredType ||
+        pokemon.types?.some((t: any) =>
+          typeof t === "string" ? t === filteredType : t?.type?.name === filteredType
+        )) &&
+      pokemon.name?.toLowerCase().includes(search.toLowerCase())
   )
-    .filter(Boolean)
-    .map((name) => ({ name }))
+
+  const paginatedPokemon = filteredPokemon.slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE)
+  const pageCount = Math.ceil(filteredPokemon.length / ITEMS_PER_PAGE)
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 0 && newPage < pageCount) {
+      setPage(newPage)
+    }
+  }
 
   const getRandomPokemon = () => {
     const randomIndex = Math.floor(Math.random() * filteredPokemon.length)
@@ -117,6 +119,12 @@ const Home: React.FC = () => {
     }
   }
 
+  const allTypes: { name: string }[] = Array.from(
+    new Set(pokemonList.flatMap((p) => p.types?.map((t: any) => (typeof t === "string" ? t : t?.type?.name))))
+  )
+    .filter(Boolean)
+    .map((name) => ({ name }))
+
   if (loading) return <div className="loading">Cargando...</div>
   if (error) return <div className="error">{error}</div>
 
@@ -129,7 +137,25 @@ const Home: React.FC = () => {
         {paginatedPokemon.map((pokemon) => (
           <div key={pokemon.id} className="card-wrapper" onClick={() => handleCardClick(pokemon.id)}>
             <div className="card-link">
-              <PokemonCard {...pokemon} />
+              <PokemonCard
+                {...pokemon}
+                onEdit={(id) => {
+                  const newName = prompt("Nuevo nombre del Pokémon:")
+                  if (newName) {
+                    const updatedList = pokemonList.map((p) => (p.id === id ? { ...p, name: newName } : p))
+                    setPokemonList(updatedList)
+                    localStorage.setItem("pokemons", JSON.stringify(updatedList))
+                  }
+                }}
+                onDelete={(id) => {
+                  const confirmed = confirm("¿Estás seguro de que quieres eliminar este Pokémon?")
+                  if (confirmed) {
+                    const updatedList = pokemonList.filter((p) => p.id !== id)
+                    setPokemonList(updatedList)
+                    localStorage.setItem("pokemons", JSON.stringify(updatedList))
+                  }
+                }}
+              />
             </div>
           </div>
         ))}
@@ -137,6 +163,12 @@ const Home: React.FC = () => {
       <Pagination page={page} pageCount={pageCount} onPageChange={handlePageChange} />
       <button className="nes-btn is-primary" onClick={getRandomPokemon}>
         Random Pokémon
+      </button>
+      <button className="nes-btn is-success" onClick={() => navigate("/edit/new")}>
+        Añadir Pokémon
+      </button>
+      <button className="nes-btn is-warning" onClick={handleRestoreOriginals}>
+        <i className="fas fa-sync-alt"></i> Restaurar desde API
       </button>
     </div>
   )

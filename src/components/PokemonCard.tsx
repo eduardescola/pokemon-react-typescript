@@ -1,10 +1,15 @@
-import type React from "react"
+import React from "react"
 import "./PokemonCard.css"
 
 type Pokemon = {
   id: number
   name: string
   types: ({ type: { name: string } } | string)[]
+}
+
+type Props = Pokemon & {
+  onEdit?: (id: number) => void
+  onDelete?: (id: number) => void
 }
 
 const typeStyles: Record<string, { color: string; icon: string }> = {
@@ -26,12 +31,20 @@ const typeStyles: Record<string, { color: string; icon: string }> = {
   dark: { color: "#705848", icon: "fas fa-moon" },
   steel: { color: "#B8B8D0", icon: "fas fa-cogs" },
   fairy: { color: "#EE99AC", icon: "fas fa-star" },
-  stellar: { color: "#b0c4de", icon: "fas fa-star-of-life" }, // Nuevo tipo
+  stellar: { color: "#b0c4de", icon: "fas fa-star-of-life" },
 }
 
-const PokemonCard: React.FC<Pokemon> = ({ id, name, types }) => {
+const PokemonCard: React.FC<Props> = ({ id, name, types, onEdit, onDelete }) => {
   return (
     <div className="pokemon-card nes-container is-rounded">
+      <div className="pokemon-actions-top">
+        <button className="edit-btn" onClick={() => onEdit?.(id)}>
+          <i className="fas fa-pencil-alt"></i>
+        </button>
+        <button className="delete-btn" onClick={() => onDelete?.(id)}>
+          <i className="fas fa-trash-alt"></i>
+        </button>
+      </div>
       <img
         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
         alt={name}
@@ -41,13 +54,15 @@ const PokemonCard: React.FC<Pokemon> = ({ id, name, types }) => {
       <div className="types">
         {types.map((t, idx) => {
           const typeName = typeof t === "string" ? t : t?.type?.name
-
           if (!typeName) return null
-
           const style = typeStyles[typeName]
-
           return (
-            <span key={idx} className="type" style={{ backgroundColor: style?.color || "#ccc" }} title={typeName}>
+            <span
+              key={idx}
+              className="type"
+              style={{ backgroundColor: style?.color || "#ccc" }}
+              title={typeName}
+            >
               <i className={style?.icon || "fas fa-question"} style={{ marginRight: "0.3rem" }}></i>
               {typeName.toUpperCase()}
             </span>
