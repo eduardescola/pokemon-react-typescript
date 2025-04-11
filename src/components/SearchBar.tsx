@@ -60,6 +60,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
               padding: '0.2rem 0.4rem', // 👈 más compacto
               cursor: 'pointer',
               fontSize: '0.9rem', // 👈 un poco más chico
+              color: 'black',
             }}
             onClick={() => onSearchChange(name)}
           >
