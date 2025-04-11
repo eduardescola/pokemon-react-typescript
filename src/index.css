@@ -15,7 +15,7 @@
 
 /* Cambia el cursor a una pokeball */
 * {
-  cursor: url('/public/pokeball.svg'), auto !important;
+  cursor: url("/public/pokeball.svg"), auto !important;
 }
 
 a {
@@ -48,7 +48,7 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
-  cursor: pointer;
+  cursor: url("/public/pokeball.svg"), auto !important;
   transition: border-color 0.25s;
 }
 button:hover {
