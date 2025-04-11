@@ -158,9 +158,19 @@ const Home: React.FC = () => {
 
   return (
     <div className="container">
-      <h1 className="title">Lista de Pokémon</h1>
-      <SearchBar search={search} onSearchChange={setSearch} allPokemonNames={pokemonList.map((p) => p.name)} />
-      <TypeFilter types={allTypes} filteredType={filteredType} onTypeFilter={handleTypeFilter} />
+      <div className="header-controls">
+        <h1 className="title">Lista de Pokémon</h1>
+        <SearchBar
+          search={search}
+          onSearchChange={setSearch}
+          allPokemonNames={pokemonList.map((p) => p.name)}
+        />
+        <TypeFilter
+          types={allTypes}
+          filteredType={filteredType}
+          onTypeFilter={handleTypeFilter}
+        />
+      </div>
       <div className="pokemon-grid">
         {paginatedPokemon.map((pokemon) => (
           <div key={pokemon.id} className="card-wrapper" onClick={() => navigate(`/pokemon/${pokemon.id}`)}>

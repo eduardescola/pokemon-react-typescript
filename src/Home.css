@@ -2,7 +2,15 @@
 
 /* Global pokeball cursor */
 * {
-  cursor: url('/pokeball.svg'), auto !important;
+  cursor: url('/poke32.png'), auto !important;
+}
+
+/* Centrado del encabezado, búsqueda y tipos */
+.header-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 /* Body estilo Pokedex retro */
