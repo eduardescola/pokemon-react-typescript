@@ -204,16 +204,21 @@ const Home: React.FC = () => {
           </div>
         ))}
       </div>
-      <Pagination page={page} pageCount={pageCount} onPageChange={handlePageChange} />
-      <button className="nes-btn is-primary" onClick={getRandomPokemon}>
-        Random Pokémon
-      </button>
-      <button className="nes-btn is-success" onClick={() => navigate("/add/new")}>
-        Añadir Pokémon
-      </button>
-      <button className="nes-btn is-warning" onClick={handleRestoreOriginals}>
-        <i className="fas fa-sync-alt"></i> Restaurar desde API
-      </button>
+      {/* Contenedor para la paginación y botones */}
+      <div className="bottom-controls">
+        <Pagination page={page} pageCount={pageCount} onPageChange={handlePageChange} />
+        <div className="buttons">
+          <button className="nes-btn is-primary" onClick={getRandomPokemon}>
+            Random Pokémon
+          </button>
+          <button className="nes-btn is-success" onClick={() => navigate("/add/new")}>
+            Añadir Pokémon
+          </button>
+          <button className="nes-btn is-warning" onClick={handleRestoreOriginals}>
+            <i className="fas fa-sync-alt"></i> Restaurar desde API
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

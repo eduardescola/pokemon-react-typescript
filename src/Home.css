@@ -85,6 +85,25 @@ body {
   margin: 2rem auto;
 }
 
+/* Contenedor de la paginación y botones */
+.bottom-controls {
+  display: flex;
+  flex-direction: column; /* Coloca los elementos en columna */
+  justify-content: center;
+  align-items: center; /* Asegura que se alineen en el centro */
+  gap: 1rem; /* Espacio entre la paginación y los botones */
+  margin-top: 2rem;
+}
+
+/* Paginación */
+.pagination {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem; /* Asegura que haya un pequeño espacio entre la paginación y los botones */
+}
+
 /* Responsive */
 @media (max-width: 600px) {
   .title {
