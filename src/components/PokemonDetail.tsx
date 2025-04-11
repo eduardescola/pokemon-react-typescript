@@ -102,8 +102,7 @@ const PokemonDetail: React.FC = () => {
           <p>Height: {pokemonDetail?.height} decimetres</p>
           <p>Weight: {pokemonDetail?.weight} hectograms</p>
           <p>
-            Abilities:
-            {pokemonDetail?.abilities && pokemonDetail.abilities.length > 0
+            Abilities: {pokemonDetail?.abilities && pokemonDetail.abilities.length > 0
               ? pokemonDetail.abilities.map((ability, idx) => {
                   return (
                     <span key={idx}>
