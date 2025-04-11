@@ -71,8 +71,8 @@ const PokemonDetail: React.FC = () => {
     <div className="pokemon-detail-container">
       {/* Botón de volver atrás con estilo NES */}
       <div className="back-button-container">
-        <button className="nes-btn is-error back-button" onClick={handleGoBack}>
-          <i className="nes-icon is-small heart"></i> Volver
+        <button className="nes-btn is-blue back-button" onClick={handleGoBack}>
+        <i className="fas fa-arrow-left"></i> Volver
         </button>
       </div>
 

@@ -1,87 +1,96 @@
 .pokemon-card {
-    position: relative; /* <--- Agregado */
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    width: 200px !important;
-    height: 200px !important;
-    padding: 1rem !important;
-    margin: 1rem !important;
-    background-color: #fff !important;
-    border: 4px solid #212529 !important;
-    border-radius: 12px !important;
-    box-shadow: 4px 4px 0px #000 !important;
-    transition: transform 0.2s ease !important;
-    overflow: hidden !important;
-    box-sizing: border-box !important;
-  }
-  
-  .pokemon-card:hover {
-    transform: scale(1.05);
-  }
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 200px;
+  min-height: 250px;
+  padding: 1rem;
+  margin: 1rem;
+  background-color: #fff;
+  border: 4px solid #212529;
+  border-radius: 12px;
+  box-shadow: 4px 4px 0px #000;
+  transition: transform 0.2s ease;
+  overflow: hidden;
+  box-sizing: border-box;
+}
 
-  .pokemon-actions-top {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    display: flex;
-    justify-content: space-between;
-    pointer-events: auto;
-  }
-  
-  .edit-btn,
-  .delete-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 4px;
-  }
-  
-  .edit-btn i {
-    color: #f0ad4e;
-  }
-  
-  .delete-btn i {
-    color: #d9534f;
-  }  
-  
-  .sprite {
-    width: 96px;
-    height: 96px;
-    image-rendering: pixelated;
-    margin-bottom: 1rem;
-  }
-  
-  .pokemon-card h3 {
-    font-family: 'Press Start 2P', cursive;
-    font-size: 0.7rem;
-    margin-bottom: 0.75rem;
-    text-align: center;
-    color: #333;
-  }
-  
-  .types {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-    justify-content: center;
-    margin-top: auto;
-  }
-  
-  .type {
-    display: flex;
-    align-items: center;
-    gap: 0.2rem;
-    padding: 0.3rem 0.6rem;
-    font-size: 0.6rem;
-    font-weight: bold;
-    color: #fff;
-    border-radius: 4px;
-    text-shadow: 1px 1px #000;
-    text-transform: uppercase;
-  }
-  
-  
+.pokemon-card:hover {
+  transform: scale(1.05);
+}
+
+.pokemon-actions-top {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+}
+
+.sprite {
+  width: 96px;
+  height: 96px;
+  image-rendering: pixelated;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.pokemon-card h3 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.65rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  color: #333;
+}
+
+.types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+  padding: 0.25rem;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.types::-webkit-scrollbar {
+  display: none;
+}
+
+.type {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.5rem;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 4px;
+  text-shadow: 1px 1px #000;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.edit-btn i {
+  color: #007bff; /* Azul (puedes cambiar el tono si quieres otro tipo de azul) */
+}
+
+.delete-btn i {
+  color: #dc3545; /* Rojo (puedes cambiar el tono si quieres otro tipo de rojo) */
+}
+
+/* Opcional: Quitar fondo y bordes de los botones para que solo se vea el ícono */
+.edit-btn,
+.delete-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+}

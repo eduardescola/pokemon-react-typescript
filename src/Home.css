@@ -1,23 +1,36 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Global pokeball cursor */
+* {
+  cursor: url('/pokeball.svg'), auto !important;
+}
+
+/* Body estilo Pokedex retro */
+body {
+  background-color: #f44336; /* Pokédex rojo */
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+/* Contenedor principal */
+.container {
   padding: 2rem;
-  text-align: center;
+  background-color: #222;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #111;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Título */
+.title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #ffeb3b; /* Amarillo tipo Pikachu */
+  text-shadow: 2px 2px #000;
 }
 
+/* Grilla de Pokémon */
 .pokemon-grid {
   display: flex;
   flex-wrap: wrap;
@@ -26,25 +39,62 @@
   padding: 2rem 0;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Tarjetas Pokémon */
+.card-wrapper {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.card-wrapper:hover {
+  transform: scale(1.05);
+}
+
+.card-link {
+  background-color: #444;
+  border: 4px solid #ffeb3b;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px #000;
+}
+
+/* Botones */
+.nes-btn {
+  margin: 1rem 0.5rem;
+}
+
+/* Restaurar botón ícono */
+.nes-btn i {
+  margin-right: 0.5rem;
+}
+
+/* Error message */
+.error {
+  background-color: #c62828;
+  padding: 1rem;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .title {
+    font-size: 1.2rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  .container {
+    padding: 1rem;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Pokedex glow border animation */
+@keyframes flicker {
+  0% { box-shadow: 0 0 5px #ffeb3b; }
+  50% { box-shadow: 0 0 20px #ffeb3b; }
+  100% { box-shadow: 0 0 5px #ffeb3b; }
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.card-link:hover {
+  animation: flicker 1.5s infinite;
 }
