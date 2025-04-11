@@ -24,7 +24,7 @@ body,
 
 /* Asegurarse de que el cursor de Mickey Mouse no se aplique */
 html {
-  cursor: url("/public/pokeball.svg") 16 16, auto !important;
+  cursor: url("/public/poke32.png") 16 16, auto !important;
 }
 
 a {
