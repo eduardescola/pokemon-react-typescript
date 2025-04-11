@@ -44,61 +44,63 @@ const AddPokemon: React.FC = () => {
   };
 
   return (
-    <div className="edit-container nes-container is-rounded">
-      <h2>Añadir Pokémon</h2>
-      {error && <p className="error">{error}</p>}
-
-      <label>Nombre:</label>
-      <input className="nes-input" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-
-      <label>Tipo:</label>
-      <input className="nes-input" type="text" value={type} onChange={(e) => setType(e.target.value)} />
-
-      <label>Habilidades (separadas por coma, opcional):</label>
-      <input
-        className="nes-input"
-        type="text"
-        value={abilities}
-        onChange={(e) => setAbilities(e.target.value)}
-        placeholder="Por ejemplo: levitate, overgrow"
-      />
-
-      <label>Altura (en decímetros, requerido):</label>
-      <input
-        className="nes-input"
-        type="number"
-        value={height}
-        onChange={(e) => setHeight(e.target.value)}
-        placeholder="Por ejemplo: 10"
-      />
-
-      <label>Peso (en hectogramos, requerido):</label>
-      <input
-        className="nes-input"
-        type="number"
-        value={weight}
-        onChange={(e) => setWeight(e.target.value)}
-        placeholder="Por ejemplo: 60"
-      />
-
-      <label>URL de Sprite (opcional):</label>
-      <input
-        className="nes-input"
-        type="text"
-        value={sprite}
-        onChange={(e) => setSprite(e.target.value)}
-      />
-      
-      <div className="buttons-container">
-        <button className="nes-btn is-primary" onClick={handleSubmit}>
-          Guardar
-        </button>
-        <button className="nes-btn" onClick={() => navigate("/")}>
-          Cancelar
-        </button>
+    <div className="add-page-wrapper">
+      <div className="edit-container nes-container is-rounded">
+        <h2>Añadir Pokémon</h2>
+        {error && <p className="error">{error}</p>}
+  
+        <label>Nombre:</label>
+        <input className="nes-input" type="text" value={name} onChange={(e) => setName(e.target.value)} />
+  
+        <label>Tipo:</label>
+        <input className="nes-input" type="text" value={type} onChange={(e) => setType(e.target.value)} />
+  
+        <label>Habilidades (separadas por coma, opcional):</label>
+        <input
+          className="nes-input"
+          type="text"
+          value={abilities}
+          onChange={(e) => setAbilities(e.target.value)}
+          placeholder="Por ejemplo: levitate, overgrow"
+        />
+  
+        <label>Altura (en decímetros, requerido):</label>
+        <input
+          className="nes-input"
+          type="number"
+          value={height}
+          onChange={(e) => setHeight(e.target.value)}
+          placeholder="Por ejemplo: 10"
+        />
+  
+        <label>Peso (en hectogramos, requerido):</label>
+        <input
+          className="nes-input"
+          type="number"
+          value={weight}
+          onChange={(e) => setWeight(e.target.value)}
+          placeholder="Por ejemplo: 60"
+        />
+  
+        <label>URL de Sprite (opcional):</label>
+        <input
+          className="nes-input"
+          type="text"
+          value={sprite}
+          onChange={(e) => setSprite(e.target.value)}
+        />
+        
+        <div className="buttons-container">
+          <button className="nes-btn is-primary" onClick={handleSubmit}>
+            Guardar
+          </button>
+          <button className="nes-btn" onClick={() => navigate("/")}>
+            Cancelar
+          </button>
+        </div>
       </div>
     </div>
-  );
+  );  
 };
 
 export default AddPokemon;

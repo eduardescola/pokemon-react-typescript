@@ -22,7 +22,6 @@ body, html {
     background-color: #f0f4f8;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: 'Press Start 2P', cursive; /* Fuente retro */
-    min-height: 100vh;         /* Asegura que el contenedor ocupe al menos el 100% de la altura */
   }
   
   /* Centrado del título */
@@ -92,4 +91,15 @@ body, html {
     text-align: center;
     margin-top: 10px;
   }
+
+  /* Wrapper general SOLO para la vista de añadir Pokémon */
+.add-page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ocupa toda la pantalla */
+  padding: 40px 16px;
+  background-color: #f44336; /* Rojo Pokédex */
+  box-sizing: border-box;
+}
   

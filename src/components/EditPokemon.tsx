@@ -61,34 +61,36 @@ const EditPokemon: React.FC = () => {
   };
 
   return (
-    <div className="edit-container nes-container is-rounded">
-      <h2>Editar Pokémon</h2>
-      {error && <p className="error">{error}</p>}
-
-      <label>Nombre:</label>
-      <input className="nes-input" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-
-      <label>Tipo:</label>
-      <input className="nes-input" type="text" value={type} onChange={(e) => setType(e.target.value)} />
-
-      <label>URL de Sprite (opcional):</label>
-      <input
-        className="nes-input"
-        type="text"
-        value={sprite}
-        onChange={(e) => setSprite(e.target.value)}
-      />
-
-      <div className="buttons-container">
-        <button className="nes-btn is-primary" onClick={handleSubmit}>
-          Guardar
-        </button>
-        <button className="nes-btn" onClick={() => navigate("/")}>
-          Cancelar
-        </button>
+    <div className="add-page-wrapper">
+      <div className="edit-container nes-container is-rounded">
+        <h2>Editar Pokémon</h2>
+        {error && <p className="error">{error}</p>}
+  
+        <label>Nombre:</label>
+        <input className="nes-input" type="text" value={name} onChange={(e) => setName(e.target.value)} />
+  
+        <label>Tipo:</label>
+        <input className="nes-input" type="text" value={type} onChange={(e) => setType(e.target.value)} />
+  
+        <label>URL de Sprite (opcional):</label>
+        <input
+          className="nes-input"
+          type="text"
+          value={sprite}
+          onChange={(e) => setSprite(e.target.value)}
+        />
+  
+        <div className="buttons-container">
+          <button className="nes-btn is-primary" onClick={handleSubmit}>
+            Guardar
+          </button>
+          <button className="nes-btn" onClick={() => navigate("/")}>
+            Cancelar
+          </button>
+        </div>
       </div>
     </div>
-  );
+  );  
 };
 
 export default EditPokemon;
