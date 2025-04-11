@@ -1,4 +1,3 @@
-// TypeFilter.tsx
 import React from 'react';
 
 type Type = {

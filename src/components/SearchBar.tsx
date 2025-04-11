@@ -1,4 +1,3 @@
-// SearchBar.tsx
 import React, { useState, useEffect } from 'react';
 
 type SearchBarProps = {
