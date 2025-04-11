@@ -13,15 +13,25 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Cambia el cursor a una pokeball */
-* {
-  cursor: url("/public/pokeball.svg"), auto !important;
+/* Sobrescribir cualquier otro cursor definido en la página con un cursor más pequeño */
+html,
+body,
+*,
+*::before,
+*::after {
+  cursor: url("/public/pokeball.svg") 16 16, auto !important;
+}
+
+/* Asegurarse de que el cursor de Mickey Mouse no se aplique */
+html {
+  cursor: url("/public/pokeball.svg") 16 16, auto !important;
 }
 
 a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
+  cursor: url("/public/pokeball.svg") 16 16, auto !important;
 }
 a:hover {
   color: #535bf2;
@@ -48,7 +58,7 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
-  cursor: url("/public/pokeball.svg"), auto !important;
+  cursor: url("/public/poke32.png") 16 16, auto !important;
   transition: border-color 0.25s;
 }
 button:hover {
