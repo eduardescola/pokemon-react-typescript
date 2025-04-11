@@ -13,7 +13,7 @@ const LOADING_DURATION = 3000 // 3 seconds in milliseconds
 
 const Home: React.FC = () => {
   const [pokemonList, setPokemonList] = useState<any[]>([])
-  const [filteredType, setFilteredType] = useState<string | null>(null)
+  const [filteredTypes, setFilteredTypes] = useState<Set<string>>(new Set()) // Cambié esto a un Set para soporte de selección múltiple
   const [search, setSearch] = useState("")
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -112,16 +112,28 @@ const Home: React.FC = () => {
   }
 
   const handleTypeFilter = (type: string) => {
-    setFilteredType(type === filteredType ? null : type)
-    setPage(0)
-  }
+    const newFilteredTypes = new Set(filteredTypes);
+  
+    if (type === "") {
+      // "ALL" se ha seleccionado, limpiamos todos los filtros.
+      newFilteredTypes.clear();
+    } else if (newFilteredTypes.has(type)) {
+      // Si el tipo ya está marcado, lo desmarcamos.
+      newFilteredTypes.delete(type);
+    } else {
+      // Si el tipo no está marcado, lo marcamos.
+      newFilteredTypes.add(type);
+    }
+  
+    setFilteredTypes(newFilteredTypes);
+    setPage(0);
+  };  
 
   const filteredPokemon = pokemonList.filter(
     (pokemon) =>
-      (!filteredType ||
-        pokemon.types?.some((t: any) =>
-          typeof t === "string" ? t === filteredType : t?.type?.name === filteredType,
-        )) &&
+      (filteredTypes.size === 0 || pokemon.types?.some((t: any) =>
+        filteredTypes.has(typeof t === "string" ? t : t?.type?.name),
+      )) &&
       pokemon.name?.toLowerCase().includes(search.toLowerCase()),
   )
 
@@ -167,8 +179,8 @@ const Home: React.FC = () => {
         />
         <TypeFilter
           types={allTypes}
-          filteredType={filteredType}
-          onTypeFilter={handleTypeFilter}
+          filteredType={Array.from(filteredTypes)}
+          onTypeFilter={(type) => handleTypeFilter(type === "" ? "" : type)}  // Enviar "" cuando se hace clic en "ALL"
         />
       </div>
       <div className="pokemon-grid">
