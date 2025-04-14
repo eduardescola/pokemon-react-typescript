@@ -1,54 +1,70 @@
-# React + TypeScript + Vite
+# 🧢 Pokédex React App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+¡Bienvenido a tu Pokédex personalizada! Esta aplicación te permite explorar, buscar, filtrar, editar, eliminar y añadir Pokémon utilizando la PokéAPI y almacenamiento local.
 
-Currently, two official plugins are available:
+![pokedex-banner](https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tecnologías
 
-## Expanding the ESLint configuration
+- ⚛️ **React + Vite** – Frontend rápido y moderno.
+- 🔍 **React Router** – Navegación entre vistas.
+- 📦 **localStorage** – Persistencia de datos local.
+- 🎨 **NES.css** – Estética retro de 8-bits.
+- 🖼️ **FontAwesome** – Íconos para los tipos de Pokémon.
+- 🌐 **PokéAPI** – Datos reales de Pokémon.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🧰 Funcionalidades
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+✅ Ver todos los Pokémon  
+✅ Filtrar por tipo (múltiple)  
+✅ Buscar por nombre  
+✅ Paginación  
+✅ Ver detalle de cada Pokémon  
+✅ Añadir nuevos Pokémon personalizados  
+✅ Editar Pokémon existentes  
+✅ Eliminar Pokémon  
+✅ Restaurar lista original desde la PokéAPI  
+✅ Cursor personalizado de Pokébola
+
+## ⚙️ Instalación y ejecución local
+
+1. Clonar el repositorio
+
+```bash
+git clone https://github.com/tu-usuario/pokedex-react-app.git
+cd pokedex-react-app
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Instalar dependencias
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm install
 ```
+
+3. Iniciar la aplicación
+
+```bash
+npm run dev
+```
+
+4. Abrir en el navegador
+
+```
+http://localhost:5173
+```
+
+## 💡 Notas importantes
+
+- Si quieres borrar todos los Pokémon modificados y volver a cargar desde la PokéAPI, puedes usar el botón **"Restaurar desde API"**.
+- Los cambios (añadir, editar, eliminar) se almacenan en el `localStorage`.
+- Asegúrate de tener conexión a internet para la primera carga desde la API.
+
+## 🎮 Créditos
+
+- [PokéAPI](https://pokeapi.co)
+- [NES.css](https://nostalgic-css.github.io/NES.css/)
+- [FontAwesome](https://fontawesome.com/)
+
+## 📜 Licencia
+
+MIT License © 2025 - Eduard Escolà Soudovski
